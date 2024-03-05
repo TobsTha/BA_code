@@ -1,0 +1,210 @@
+deleteall;
+
+
+#calculate constants
+
+delta_w=wg_height/tan(wg_sidewall_angle*pi/180)*2;
+
+width_bot_l=wg_width+href*delta_w;
+width_bot_r=wg_output_width+href*delta_w;
+
+
+width_top_l=wg_width-(1-href)*delta_w;
+width_top_r=wg_output_width-(1-href)*delta_w;
+
+zmin=-wg_height/2;
+zmax=wg_height/2;
+
+MMI_bot=MMI_width+href*delta_w;
+MMI_top=MMI_width+(1-href)*delta_w;
+
+
+MMI_bot_min=-MMI_bot/2;
+MMI_bot_max=MMI_bot/2;
+MMI_top_min=-MMI_top/2;
+MMI_top_max=MMI_top/2;
+#input_seperation_mod
+sep_mod=input_offset;
+
+
+#calculating vertices for taper
+ymin_bot_l = -width_bot_l/2;
+ymax_bot_l = width_bot_l/2;
+
+
+ymin_bot_r = -width_bot_r/2;
+ymax_bot_r = width_bot_r/2;
+
+
+ymin_top_l = -width_top_l/2;
+ymax_top_l = width_top_l/2;
+
+
+ymin_top_r = -width_top_r/2;
+ymax_top_r = width_top_r/2;
+
+
+x_min_input=-MMI_length/2-taper_length-input_length;
+x_max_input=-MMI_length/2-taper_length;
+
+
+xmin=-MMI_length/2-taper_length;
+xmax=-MMI_length/2;
+
+
+x_min_MMI=-MMI_length/2;
+x_max_MMI=MMI_length/2;
+
+
+vtx_input=[x_min_input,ymin_bot_l,zmin;    #1
+        x_max_input,ymin_bot_l,zmin;     #2
+        x_max_input,ymax_bot_l,zmin;     #3
+        x_min_input,ymax_bot_l,zmin;     #4  
+        x_min_input,ymin_top_l,zmax;     #5
+        x_max_input,ymin_top_l,zmax;     #6
+        x_max_input,ymax_top_l,zmax;     #7  
+        x_min_input,ymax_top_l,zmax]; 
+
+vtx_input_bot=[x_min_input,ymin_bot_l-sep_mod,zmin;    #1
+        x_max_input,ymin_bot_l-sep_mod,zmin;     #2
+        x_max_input,ymax_bot_l-sep_mod,zmin;     #3
+        x_min_input,ymax_bot_l-sep_mod,zmin;     #4  
+        x_min_input,ymin_top_l-sep_mod,zmax;     #5
+        x_max_input,ymin_top_l-sep_mod,zmax;     #6
+        x_max_input,ymax_top_l-sep_mod,zmax;     #7  
+        x_min_input,ymax_top_l-sep_mod,zmax]; 
+
+
+
+
+#now doing taper
+
+
+vtx_taper_top= [xmin,ymin_bot_l,zmin;    #1
+        xmax,ymin_bot_r,zmin;     #2
+        xmax,ymax_bot_r,zmin;     #3
+        xmin,ymax_bot_l,zmin;     #4  
+        xmin,ymin_top_l,zmax;     #5
+        xmax,ymin_top_r,zmax;     #6
+        xmax,ymax_top_r,zmax;     #7  
+        xmin,ymax_top_l,zmax];    #8
+
+vtx_taper_bot= [xmin,ymin_bot_l-sep_mod,zmin;    #1
+        xmax,ymin_bot_r-sep_mod,zmin;     #2
+        xmax,ymax_bot_r-sep_mod,zmin;     #3
+        xmin,ymax_bot_l-sep_mod,zmin;     #4  
+        xmin,ymin_top_l-sep_mod,zmax;     #5
+        xmax,ymin_top_r-sep_mod,zmax;     #6
+        xmax,ymax_top_r-sep_mod,zmax;     #7  
+        xmin,ymax_top_l-sep_mod,zmax];    #8
+
+
+vtx_MMI=[x_min_MMI,MMI_bot_min-sep_mod/2,zmin;    #1
+        x_max_MMI,MMI_bot_min-sep_mod/2,zmin;     #2
+        x_max_MMI,MMI_bot_max-sep_mod/2,zmin;     #3
+        x_min_MMI,MMI_bot_max-sep_mod/2,zmin;     #4  
+        x_min_MMI,MMI_top_min-sep_mod/2,zmax;     #5
+        x_max_MMI,MMI_top_min-sep_mod/2,zmax;     #6
+        x_max_MMI,MMI_top_max-sep_mod/2,zmax;     #7  
+        x_min_MMI,MMI_top_max-sep_mod/2,zmax]; 
+
+
+vtx_taper_top_out= [-xmin,ymin_bot_l,zmin;    #1
+        -xmax,ymin_bot_r,zmin;     #2
+        -xmax,ymax_bot_r,zmin;     #3
+        -xmin,ymax_bot_l,zmin;     #4  
+        -xmin,ymin_top_l,zmax;     #5
+        -xmax,ymin_top_r,zmax;     #6
+        -xmax,ymax_top_r,zmax;     #7  
+        -xmin,ymax_top_l,zmax];    #8
+
+vtx_taper_bot_out= [-xmin,ymin_bot_l-sep_mod,zmin;    #1
+        -xmax,ymin_bot_r-sep_mod,zmin;     #2
+        -xmax,ymax_bot_r-sep_mod,zmin;     #3
+        -xmin,ymax_bot_l-sep_mod,zmin;     #4  
+        -xmin,ymin_top_l-sep_mod,zmax;     #5
+        -xmax,ymin_top_r-sep_mod,zmax;     #6
+        -xmax,ymax_top_r-sep_mod,zmax;     #7  
+        -xmin,ymax_top_l-sep_mod,zmax];    #8
+
+
+vtx_output=[-x_min_input,ymin_bot_l,zmin;    #1
+        -x_max_input,ymin_bot_l,zmin;     #2
+        -x_max_input,ymax_bot_l,zmin;     #3
+        -x_min_input,ymax_bot_l,zmin;     #4  
+        -x_min_input,ymin_top_l,zmax;     #5
+        -x_max_input,ymin_top_l,zmax;     #6
+        -x_max_input,ymax_top_l,zmax;     #7  
+        -x_min_input,ymax_top_l,zmax]; 
+
+vtx_output_bot=[-x_min_input,ymin_bot_l-sep_mod,zmin;    #1
+        -x_max_input,ymin_bot_l-sep_mod,zmin;     #2
+        -x_max_input,ymax_bot_l-sep_mod,zmin;     #3
+        -x_min_input,ymax_bot_l-sep_mod,zmin;     #4  
+        -x_min_input,ymin_top_l-sep_mod,zmax;     #5
+        -x_max_input,ymin_top_l-sep_mod,zmax;     #6
+        -x_max_input,ymax_top_l-sep_mod,zmax;     #7  
+        -x_min_input,ymax_top_l-sep_mod,zmax]; 
+
+
+
+
+
+
+
+a = cell(6);
+for(i = 1:6){
+    a{i} = cell(1);
+}        
+
+
+#facets:
+
+
+a{1}{1} = [1,4,3,2]; #bottom facet
+a{2}{1} = [1,2,6,5];
+a{3}{1} = [2,3,7,6];
+a{4}{1} = [3,4,8,7];
+a{5}{1} = [1,5,8,4];
+a{6}{1} = [5,6,7,8]; #top facet
+
+addplanarsolid(vtx_input,a);
+set("material",wg_material);
+
+addplanarsolid(vtx_input_bot,a);
+set("material",wg_material);
+
+addplanarsolid(vtx_taper_top,a);
+set("material",wg_material);
+
+addplanarsolid(vtx_taper_bot,a);
+set("material",wg_material);
+
+addplanarsolid(vtx_MMI,a);
+set("material",wg_material);
+
+
+addplanarsolid(vtx_taper_top_out,a);
+set("material",wg_material);
+addplanarsolid(vtx_taper_bot_out,a);
+set("material",wg_material);
+
+
+addplanarsolid(vtx_output,a);
+set("material",wg_material);
+addplanarsolid(vtx_output_bot,a);
+set("material",wg_material);
+
+
+
+
+#addrect;
+#set("x",0);
+#set("x span", MMI_length+taper_length*2+input_length*2);
+
+#set("y",-sep_mod/2);
+#set("y span", sim_width);
+
+#set("z",-wg_lower_height/2-wg_height/2);
+#set("z span", wg_lower_height);
+#set("material",wg_material);
